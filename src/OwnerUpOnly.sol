@@ -17,6 +17,4 @@ contract OwnerUpOnly {
         }
         count++;
     }
-        
-
-}    
+}

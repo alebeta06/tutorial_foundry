@@ -29,4 +29,4 @@ contract OwnerUpOnlyTest is Test {
         vm.prank(address(0));
         upOnly.increment();
     }
-}   
+}

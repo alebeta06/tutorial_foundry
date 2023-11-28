@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import  "forge-std/Test.sol";
+import "forge-std/Test.sol";
 import {HelperContract} from "../src/HelperContract.sol";
 import {Counter} from "../src/Counter.sol";
 
@@ -13,7 +13,7 @@ contract CounterTest is Test, HelperContract {
     function setUp() public {
         counter = new Counter();
         testNumber = 42;
-        importantAddress =  0x377307274977ac9E3b2b71BEaA8a1aC859FB1097;
+        importantAddress = 0x377307274977ac9E3b2b71BEaA8a1aC859FB1097;
     }
 
     function test_ImportantAddress() public {
@@ -23,6 +23,7 @@ contract CounterTest is Test, HelperContract {
     function test_NumberIs42() public {
         assertEq(testNumber, 42);
     }
+
     function testFail_Substract43() public {
         testNumber -= 43;
     }
@@ -40,6 +41,5 @@ contract CounterTest is Test, HelperContract {
 
     function testFail_reduce() public {
         counter.reduce();
-
     }
-}    
+}
