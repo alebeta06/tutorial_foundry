@@ -22,12 +22,14 @@ contract UniversityTest is Test {
     }
 
     // Test que verifica que no se puede inscribir antes de la fecha de inicio
+    // vm.expectRevert espera que la transacción revierta con el mensaje "cannot enroll"
     function testEnrollFailBeforeStartDate() public {
         vm.expectRevert("cannot enroll");
         university.enroll();
     }
 
     // Test que verifica que no se puede inscribir después de la fecha límite
+    // vm.warp se usa para simular que han pasado 2 días desde la fecha de inicio
     function testEnrollFailBeforeEndDate() public {
         vm.expectRevert("cannot enroll");
         // Avanzamos 2 días desde la fecha de inicio
@@ -36,6 +38,7 @@ contract UniversityTest is Test {
     }
 
     // Test que verifica la inscripción exitosa durante el período permitido
+    // vm.warp se usa para simular que ha pasado 1 día desde la fecha de inicio
     function testEnroll() public {
         // Avanzamos 1 día desde la fecha de inicio (dentro del período permitido)
         vm.warp(startDate + 1 days);
@@ -43,6 +46,7 @@ contract UniversityTest is Test {
     }
 
     // Test que verifica que se puede dar de baja después del período de inscripción
+    // vm.warp se usa para simular que han pasado 2 días y 1 segundo desde la fecha de inicio
     function testLeave() public {
         // Avanzamos 2 días y 1 segundo (después del período de inscripción)
         vm.warp(startDate + 2 days + 1 seconds);
@@ -50,6 +54,7 @@ contract UniversityTest is Test {
     }
 
     // Test que demuestra el uso de skip para avanzar el tiempo
+    // skip se usa para avanzar el tiempo en segundos
     function testSkip() public {
         // Establecemos el timestamp a 0
         vm.warp(0);
@@ -60,6 +65,7 @@ contract UniversityTest is Test {
     }
 
     // Test que demuestra el uso de rewind para retroceder el tiempo
+    // rewind se usa para retroceder el tiempo en segundos
     function testRewind() public {
         // Retrocedemos 1 segundo
         rewind(1);
