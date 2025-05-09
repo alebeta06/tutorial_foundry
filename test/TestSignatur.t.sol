@@ -8,5 +8,10 @@ contract TestSign is Test {
         (address alejandro, uint256 privateKey) = makeAddrAndKey("alejandro");
         emit log_address(alejandro);
         emit log_uint(privateKey);
+
+        bytes32 messageHashed = keccak256("firmado por alejandro");
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, messageHashed);
+        address signer = ecrecover(messageHashed, v, r, s);
+        assertEq(signer, alejandro);
     }
 }
