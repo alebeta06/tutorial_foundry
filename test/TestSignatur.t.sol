@@ -5,9 +5,21 @@ import "forge-std/Test.sol";
 
 contract TestSign is Test {
     function testSignMessage() public {
+        vm.skip(true);
         (address alejandro, uint256 privateKey) = makeAddrAndKey("alejandro");
         emit log_address(alejandro);
         emit log_uint(privateKey);
+
+        bytes32 messageHashed = keccak256("firmado por alejandro");
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, messageHashed);
+        address signer = ecrecover(messageHashed, v, r, s);
+        assertEq(signer, alejandro);
+    }
+
+    function testSignMessageWallet() public {
+        address alejandro = vm.createWallet("alejandro").addr;
+        uint256 privateKey = vm.createWallet("alejandro").privateKey;
+        
 
         bytes32 messageHashed = keccak256("firmado por alejandro");
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, messageHashed);
