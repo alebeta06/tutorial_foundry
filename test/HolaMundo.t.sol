@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.22;
 
 import {Test, console2} from "forge-std/Test.sol";
 import {HolaMundo} from "../src/HolaMundo.sol";
@@ -12,6 +12,6 @@ contract HolaMundoTest is Test {
     }
 
     function testSaludo() public {
-        assertEq(holaMundo.saludo(), "Hola Mundo#");
+        assertEq(holaMundo.saludo(), "Hola Mundo!");
     }
 }

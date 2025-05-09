@@ -25,8 +25,9 @@ contract FactoryTest is Test {
         assertEq(result, "Contrato desplegado");
     }
 
-    function testFail_Revert() public {
+    function test_RevertWhen_NotOwner() public {
         vm.prank(address(0));
+        vm.expectRevert();
         factory.revertFunction();
     }
 }

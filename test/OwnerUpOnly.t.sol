@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
 import {OwnerUpOnly} from "../src/OwnerUpOnly.sol";
@@ -20,12 +20,6 @@ contract OwnerUpOnlyTest is Test {
         assertEq(upOnly.count(), 0);
         upOnly.increment();
         assertEq(upOnly.count(), 1);
-    }
-
-    function testFail_IncrementAsNotOwner() public {
-        vm.skip(true);
-        vm.prank(address(0));
-        upOnly.increment();
     }
 
     function test_RevertWhen_CallerIsNotOwner() public {
