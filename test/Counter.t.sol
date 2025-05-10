@@ -2,7 +2,8 @@
 pragma solidity ^0.8.13;
 
 // Importamos las utilidades de test y console para logging
-import {Test, console } from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
+import {console} from "forge-std/console.sol";
 // Importamos el contrato Counter que vamos a probar
 import {Counter} from "../src/Counter.sol";
 
@@ -21,8 +22,6 @@ contract CounterTest is Test {
     function test_Increment() public {
         // Incrementamos el contador
         counter.increment();
-        // Imprimimos un mensaje con el número 256 (esto parece ser un ejemplo)
-        console.log("imprime el siguiente numero :", 256);
         // Verificamos que el contador sea 1 después del incremento
         assertEq(counter.contador(), 1);
     }
