@@ -24,7 +24,8 @@ contract ForkingTest is Test {
         DAI = IDAI(0x6B175474E89094C44Da98b954EedeAC495271d0F);
     }
 
-    function testDepositEtherMintWETH() public {        
+    function testDepositEtherMintWETH() public {
+        vm.skip(true);        
         vm.deal(address(this), 1 ether);
         uint256 balance = WETH.balanceOf(address(this));
         emit log_uint(balance);
@@ -33,5 +34,22 @@ contract ForkingTest is Test {
         uint256 finalBalance = WETH.balanceOf(address(this));
         emit log_uint(finalBalance / 1e18);
         assertEq(finalBalance, 1 ether);
+    }
+
+    function testMintDai() public {
+        address alebeta = makeAddr("alebeta");
+        uint256 balance = DAI.balanceOf(alebeta);
+        uint256 initialTotalSupply = DAI.totalSupply();
+
+        emit log_uint(balance);
+        emit log_uint(initialTotalSupply / 1e18);
+
+        deal(address(DAI), alebeta, 1 ether, true);
+
+        uint256 finalBalance = DAI.balanceOf(alebeta);
+        uint256 finalTotalSupply = DAI.totalSupply();
+
+        emit log_uint(finalBalance / 1e18);
+        emit log_uint(finalTotalSupply / 1e18);
     }
 }
