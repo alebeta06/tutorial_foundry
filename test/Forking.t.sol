@@ -46,7 +46,7 @@ contract ForkingTest is Test {
         // Verificamos el balance final de WETH
         uint256 finalBalance = WETH.balanceOf(address(this));
         emit log_uint(finalBalance / 1e18);  // Dividimos por 1e18 para ver el valor en ETH
-        assertEq(finalBalance, 1 ether);  // Verificamos que el balance final sea 1 ETH
+        assertEq(finalBalance, 1.2 ether);  // Verificamos que el balance final sea 1.2 ETH (0.2 inicial + 1 del depósito)
     }
 
     // Test para verificar la funcionalidad de DAI
@@ -73,4 +73,4 @@ contract ForkingTest is Test {
         emit log_uint(finalTotalSupply / 1e18);
     }
 }
-//:~/tutorial_foundry$ forge test --match-path test/Forking.t.sol -vv --fork-url https://eth-mainnet.g.alchemy.com/v2/yIJOnvMQaC1yh0EowfuCwUImlDmz4YVA
+//:~/tutorial_foundry$ forge test --match-path test/Forking.t.sol -vv --fork-url https://eth-mainnet.g.alchemy.com/v2/{ALCHEMY_API_KEY}
