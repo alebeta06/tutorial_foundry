@@ -19,7 +19,7 @@ contract HolaMundoTest is Test {
 
     // Test que verifica que el saludo sea el esperado
     // assertEq compara dos valores y falla si son diferentes
-    function testSaludo() public {
-        assertEq(holaMundo.saludo(), "Hola Mundo!");
+    function testSaludo() view public {
+      assertEq(holaMundo.saludo(), "Hola Mundo!");
     }
 }
