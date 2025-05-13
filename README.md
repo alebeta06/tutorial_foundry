@@ -75,7 +75,48 @@ forge snapshot
 
 # Comparar con snapshot anterior
 forge snapshot --diff
+
+# Análisis detallado de gas
+# Ver reporte de gas para todos los tests
+forge test --gas-report
+
+# Ver reporte de gas para un contrato específico
+forge test --match-contract ContractName --gas-report
+
+# Ver reporte de gas para una función específica
+forge test --match-test testFunctionName --gas-report
+
+# Ver gas usado en una función específica con trazas
+forge test --match-test testFunctionName -vvvv
+
+# Ver gas usado en todas las funciones de un contrato
+forge test --match-contract ContractName -vvvv
+
+# Generar reporte de gas en formato JSON
+forge test --gas-report --json > gas-report.json
+
+# Ver gas usado en una transacción específica
+forge test --match-test testFunctionName --trace-gas
 ```
+
+### Ejemplo de Reporte de Gas
+
+El reporte de gas muestra información detallada sobre el consumo de gas:
+
+```
+| Contract           | Method        | Min     | Max     | Avg     | # calls |
+|--------------------|---------------|---------|---------|---------|---------|
+| Counter            | increment     | 28347   | 28347   | 28347   | 1       |
+| Counter            | count         | 2214    | 2214    | 2214    | 2       |
+```
+
+### Tips para Análisis de Gas
+
+- Usar `--gas-report` para obtener una visión general del consumo
+- Combinar con `-vvvv` para ver trazas detalladas con gas
+- Comparar diferentes implementaciones con `forge snapshot --diff`
+- Usar `--trace-gas` para análisis profundo de transacciones específicas
+- Exportar a JSON para análisis posterior o comparativas
 
 ### Desarrollo Local
 
@@ -111,6 +152,23 @@ cast balance <ADDRESS>
    - Usar `forge test -vvv` para debugging detallado
    - Implementar fuzzing tests para mayor cobertura
    - Utilizar invariantes para testing de propiedades
+   - Entender las trazas de los tests:
+     - `forge test -vvv`: Muestra trazas para tests fallidos
+     - `forge test -vvvv`: Muestra trazas para todos los tests
+     - Formato de trazas:
+       ```
+       [<Gas Usage>] <Contract>::<Function>(<Parameters>)
+         ├─ [<Gas Usage>] <Contract>::<Function>(<Parameters>)
+         │   └─ ← <Return Value>
+         └─ ← <Return Value>
+       ```
+     - Colores en las trazas:
+       - Verde: Llamadas exitosas
+       - Rojo: Llamadas revertidas
+       - Azul: Llamadas a códigos de trucos
+       - Cian: Registros emitidos
+       - Amarillo: Implementaciones de contratos
+     - El gas mostrado incluye operaciones entre llamadas (aritmética, lecturas/escrituras)
 
 2. **Gas Optimization**
 
