@@ -181,24 +181,6 @@ cast balance <ADDRESS>
    - Implementar `vm.trace()` para seguimiento de transacciones
    - Utilizar `forge test --debug` para debugging interactivo
 
-## 🔗 Recursos Adicionales
-
-- [Documentación Oficial de Foundry](https://book.getfoundry.sh/)
-- [Cheatsheet de Forge](https://book.getfoundry.sh/cheatcodes/)
-- [Ejemplos de Testing](https://book.getfoundry.sh/tutorials/best-practices)
-
-## 📊 Estado del Proyecto
-
-Este repositorio está en constante evolución mientras continúo aprendiendo y practicando con Foundry. Los ejemplos y documentación se actualizarán regularmente con nuevos conceptos y mejores prácticas.
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para sugerir mejoras o correcciones.
-
-## 📄 Licencia
-
-MIT
-
 ## 🔧 Cheatcodes de Foundry
 
 Foundry proporciona un conjunto de cheatcodes que permiten manipular el estado de la blockchain y facilitar el testing. Aquí están los más comunes:
@@ -287,3 +269,21 @@ vm.createSelectFork("mainnet", 12345678);
    - Usar `-vvv` para ver trazas detalladas
    - Combinar con `console.log()` para debugging
    - Verificar estado antes y después de operaciones
+
+## 🔗 Recursos Adicionales
+
+- [Documentación Oficial de Foundry](https://book.getfoundry.sh/)
+- [Cheatsheet de Forge](https://book.getfoundry.sh/cheatcodes/)
+- [Ejemplos de Testing](https://book.getfoundry.sh/tutorials/best-practices)
+
+## 📊 Estado del Proyecto
+
+Este repositorio está en constante evolución mientras continúo aprendiendo y practicando con Foundry. Los ejemplos y documentación se actualizarán regularmente con nuevos conceptos y mejores prácticas.
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para sugerir mejoras o correcciones.
+
+## 📄 Licencia
+
+MIT
