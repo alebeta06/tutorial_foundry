@@ -198,3 +198,92 @@ Las contribuciones son bienvenidas. Por favor, abre un issue o pull request para
 ## 📄 Licencia
 
 MIT
+
+## 🔧 Cheatcodes de Foundry
+
+Foundry proporciona un conjunto de cheatcodes que permiten manipular el estado de la blockchain y facilitar el testing. Aquí están los más comunes:
+
+### Manipulación de Estado
+
+| Cheatcode                            | Descripción                             | Ejemplo                                 |
+| ------------------------------------ | --------------------------------------- | --------------------------------------- |
+| `vm.warp(uint256)`                   | Cambia el timestamp del bloque          | `vm.warp(100)`                          |
+| `vm.roll(uint256)`                   | Cambia el número de bloque              | `vm.roll(1000)`                         |
+| `vm.deal(address, uint256)`          | Establece el balance de ETH             | `vm.deal(address, 1 ether)`             |
+| `vm.startPrank(address)`             | Cambia el msg.sender                    | `vm.startPrank(alice)`                  |
+| `vm.stopPrank()`                     | Restaura el msg.sender original         | `vm.stopPrank()`                        |
+| `vm.prank(address)`                  | Cambia msg.sender para una sola llamada | `vm.prank(alice)`                       |
+| `vm.mockCall(address, bytes, bytes)` | Mockea una llamada a contrato           | `vm.mockCall(target, data, returnData)` |
+
+### Manipulación de Tokens
+
+| Cheatcode                                         | Descripción                | Ejemplo                                |
+| ------------------------------------------------- | -------------------------- | -------------------------------------- |
+| `deal(address, address, uint256)`                 | Establece balance de ERC20 | `deal(token, user, 1000e18)`           |
+| `dealERC721(address, address, uint256)`           | Transfiere NFT             | `dealERC721(nft, user, tokenId)`       |
+| `dealERC1155(address, address, uint256, uint256)` | Establece balance ERC1155  | `dealERC1155(token, user, id, amount)` |
+
+### Testing y Aserciones
+
+| Cheatcode                       | Descripción                              | Ejemplo                       |
+| ------------------------------- | ---------------------------------------- | ----------------------------- |
+| `vm.expectRevert()`             | Espera que la siguiente llamada revierta | `vm.expectRevert()`           |
+| `vm.expectRevert(bytes)`        | Espera revert con mensaje específico     | `vm.expectRevert("Error")`    |
+| `vm.assume(bool)`               | Filtra casos en fuzzing                  | `vm.assume(amount > 0)`       |
+| `vm.expectCall(address, bytes)` | Verifica llamada a contrato              | `vm.expectCall(target, data)` |
+
+### Forking y Snapshots
+
+| Cheatcode                              | Descripción               | Ejemplo                                    |
+| -------------------------------------- | ------------------------- | ------------------------------------------ |
+| `vm.createSelectFork(string)`          | Crea fork de una red      | `vm.createSelectFork("mainnet")`           |
+| `vm.createSelectFork(string, uint256)` | Fork en bloque específico | `vm.createSelectFork("mainnet", 12345678)` |
+| `vm.snapshot()`                        | Crea snapshot del estado  | `uint256 id = vm.snapshot()`               |
+| `vm.revertTo(uint256)`                 | Revierte a snapshot       | `vm.revertTo(id)`                          |
+
+### Ejemplos de Uso
+
+```solidity
+// Cambiar timestamp y número de bloque
+vm.warp(block.timestamp + 1 days);
+vm.roll(block.number + 1);
+
+// Manipular balances y cuentas
+vm.deal(address(this), 1 ether);
+vm.startPrank(alice);
+contract.function();
+vm.stopPrank();
+
+// Mockear llamadas
+vm.mockCall(
+    address(token),
+    abi.encodeWithSelector(IERC20.balanceOf.selector, address(this)),
+    abi.encode(1000e18)
+);
+
+// Testing de revert
+vm.expectRevert("Insufficient balance");
+contract.transfer(address(0), 1000e18);
+
+// Forking
+vm.createSelectFork("mainnet", 12345678);
+```
+
+### Tips para Uso de Cheatcodes
+
+1. **Organización**
+
+   - Usar `setUp()` para configuración común
+   - Agrupar cheatcodes relacionados
+   - Documentar casos de uso complejos
+
+2. **Buenas Prácticas**
+
+   - Limpiar estado después de cada test
+   - Usar `vm.stopPrank()` después de `startPrank()`
+   - Verificar aserciones después de manipular estado
+
+3. **Debugging**
+   - Usar `-vvv` para ver trazas detalladas
+   - Combinar con `console.log()` para debugging
+   - Verificar estado antes y después de operaciones
