@@ -270,6 +270,115 @@ vm.createSelectFork("mainnet", 12345678);
    - Combinar con `console.log()` para debugging
    - Verificar estado antes y después de operaciones
 
+## 💰 Configuración de Wallets en Foundry
+
+Foundry permite gestionar múltiples wallets para testing y deployment. Aquí te explico cómo configurarlas y usarlas:
+
+### 1. **Wallets Actuales**
+
+Para ver las wallets configuradas:
+
+```bash
+cast wallet list
+```
+
+### 2. **Ubicación y Alcance de las Wallets**
+
+✅ **Dónde se guardan las wallets:**
+
+- Las wallets se guardan en tu directorio home (`~/.foundry/` o similar)
+- Son **globales** para todo tu sistema
+- Puedes usarlas desde cualquier proyecto de Foundry
+
+✅ **Dónde ejecutar los comandos:**
+
+- Puedes ejecutar `cast wallet` desde **cualquier directorio**
+- No necesitas estar fuera de `~/tutorial_foundry`
+- Puedes ejecutarlos desde dentro del proyecto
+
+### 3. **Pasos para Configurar Wallets con Private Keys**
+
+#### Opción A: Usando `cast wallet import`
+
+```bash
+# Importar wallet con private key
+cast wallet import <WALLET_NAME> --private-key <PRIVATE_KEY>
+
+# Ejemplo:
+cast wallet import deployer --private-key 0x1234567890abcdef...
+```
+
+#### Opción B: Usando `cast wallet new`
+
+```bash
+# Crear nueva wallet (genera nueva private key)
+# Nota: En algunas versiones, el nombre debe ser un directorio
+mkdir my-wallet
+cast wallet new my-wallet
+
+# O usar un nombre sin guiones
+cast wallet new mywallet
+```
+
+#### Opción C: Usando `cast wallet import` con mnemónica
+
+```bash
+# Importar desde mnemónica
+cast wallet import <WALLET_NAME> --mnemonic "word1 word2 word3..."
+
+# Ejemplo:
+cast wallet import test-wallet --mnemonic "test test test test test test test test test test test junk"
+```
+
+### 4. **Comandos Útiles para Gestión de Wallets**
+
+```bash
+# Listar todas las wallets
+cast wallet list
+
+# Ver detalles de una wallet específica
+cast wallet show <WALLET_NAME>
+
+# Eliminar una wallet
+cast wallet remove <WALLET_NAME>
+
+# Cambiar wallet por defecto
+cast wallet default <WALLET_NAME>
+```
+
+### 5. **Usar Wallets en Comandos**
+
+```bash
+# Usar wallet específica en comando
+cast send <CONTRACT_ADDRESS> "function()" --wallet <WALLET_NAME>
+
+# Ejemplo:
+cast send 0x123... "increment()" --wallet deployer
+
+# Usar wallet por defecto
+cast send <CONTRACT_ADDRESS> "function()"
+```
+
+### 6. **Ejemplo Completo de Configuración**
+
+```bash
+# 1. Crear wallet nueva (opción 1: crear directorio)
+mkdir my-wallet
+cast wallet new my-wallet
+
+# O crear wallet nueva (opción 2: nombre simple)
+cast wallet new mywallet
+
+# 2. Ver la wallet creada
+cast wallet show mywallet
+
+# 3. Usar la wallet
+cast send <CONTRACT> "function()" --wallet mywallet
+
+# 4. Verificar balance
+cast balance <ADDRESS> --wallet mywallet
+```
+
 ## 🔗 Recursos Adicionales
 
 - [Documentación Oficial de Foundry](https://book.getfoundry.sh/)
