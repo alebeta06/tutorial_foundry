@@ -379,6 +379,70 @@ cast send <CONTRACT> "function()" --wallet mywallet
 cast balance <ADDRESS> --wallet mywallet
 ```
 
+### 7. **Configuración de Wallet para Despliegues (scaffold-eth-default)**
+
+Este proyecto incluye una configuración específica para la wallet `scaffold-eth-default` que se usa para despliegues automáticos:
+
+#### 🔑 Cómo se creó y configuró la Private Key
+
+**1. Se generó e importó una cuenta con `cast wallet import`**
+
+```bash
+cast wallet import --private-key 0xTU_CLAVE_PRIVADA --unsafe-password 'localhost' scaffold-eth-default
+```
+
+**Qué hace este comando:**
+
+- Importa la private key para pruebas o despliegues locales
+- Crea un keystore cifrado usando la contraseña 'localhost'
+- Asigna el alias `scaffold-eth-default` a esa wallet
+
+🔐 **Nota:** `--unsafe-password` solo debe usarse en entornos de desarrollo. ¡Nunca en producción!
+
+**2. Se almacenó en:**
+
+```bash
+~/.foundry/keystores/scaffold-eth-default
+```
+
+Este archivo contiene la clave privada cifrada.
+
+**3. Se configuró para ser usada en los despliegues de forge**
+Gracias al Makefile personalizado, se añadieron condiciones para detectar si se usaba el keystore `scaffold-eth-default`. Esto permitió ejecutar despliegues con:
+
+```bash
+make deploy
+```
+
+Y automáticamente se usó la wallet importada con:
+
+```bash
+forge script script/Deploy.s.sol \
+  --rpc-url <tu_rpc> \
+  --broadcast \
+  --password localhost \
+  --legacy \
+  --ffi
+```
+
+**4. Se integró en el Makefile**
+La sección `setup-anvil-wallet` del Makefile se encargaba de crear todo esto automáticamente:
+
+```makefile
+setup-anvil-wallet:
+	shx rm ~/.foundry/keystores/scaffold-eth-default 2>/dev/null; \
+	shx rm -rf broadcast/Deploy.s.sol/31337
+	cast wallet import --private-key 0x2a871d... --unsafe-password 'localhost' scaffold-eth-default
+```
+
+#### 🧪 Verificar que está funcionando
+
+Para confirmar que la wallet fue correctamente importada y está lista para usarse:
+
+```bash
+cast wallet address --account scaffold-eth-default
+```
+
 ## 🔗 Recursos Adicionales
 
 - [Documentación Oficial de Foundry](https://book.getfoundry.sh/)
